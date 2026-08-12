@@ -15,6 +15,7 @@ MONKEYDO := $(SDK)/bin/monkeydo
 CONNECTIQ := $(SDK)/bin/connectiq
 CIQ_SHELL := $(SDK)/bin/shell
 STOP_DATA := source/StopData.mc
+SCREENCAP ?= /tmp/ciq-simulator-window.png
 
 .PHONY: all build clean key sim run settings-check settings-install test test-build check-sdk stops
 
@@ -46,6 +47,17 @@ sim: check-sdk
 	@"$(CONNECTIQ)"
 	@sleep 2
 	@echo "Connect IQ simulator started."
+
+screencap:
+	@window_id=$$(swift -e 'import Foundation; import CoreGraphics; let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID)! as NSArray; for case let window as NSDictionary in windows { let owner = (window[kCGWindowOwnerName as String] as? String) ?? ""; let title = (window[kCGWindowName as String] as? String) ?? ""; if owner.contains("Connect IQ Device Simulator") || title.hasPrefix("CIQ Simulator") { print(window[kCGWindowNumber as String]!); break } }'); \
+	if [ -z "$$window_id" ]; then \
+		echo "CIQ Simulator window not found. Start it with 'make sim' first." >&2; \
+		exit 1; \
+	fi; \
+	mkdir -p "$$(dirname "$(SCREENCAP)")"; \
+	screencapture -x -l "$$window_id" "$(SCREENCAP)"; \
+	test -s "$(SCREENCAP)" || { echo "Screenshot failed. Allow Terminal screen recording access in System Settings." >&2; exit 1; }; \
+	echo "$(SCREENCAP)"
 
 settings-check: build
 	@test -s "$(SETTINGS_JSON)" || { \
