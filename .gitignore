@@ -1,0 +1,5 @@
+bin/
+developer_key.der
+developer_key.pem
+data/stopplaces.json
+.DS_Store

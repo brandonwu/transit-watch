@@ -1,0 +1,22 @@
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <string id="AppName">Muni Metro</string>
+
+    <!-- The glance runs in its own 32KB space and only sees resources
+         scoped to it; the app screen sees these too. -->
+    <string id="GlanceTitle" scope="glance">MUNI METRO</string>
+    <string id="NoFix" scope="glance">Waiting for GPS</string>
+    <string id="NoStop" scope="glance">No Metro nearby</string>
+
+    <string id="NearbyTitle">Nearby</string>
+    <string id="Searching">Finding you...</string>
+    <string id="LiveFix">GPS fix</string>
+    <string id="StoredFix">Last known spot</string>
+
+    <!-- Only ever rendered by the phone's settings editor. -->
+    <string id="UnitsTitle" scope="settings">Distance units</string>
+    <string id="UnitsPrompt" scope="settings">Miles or kilometers, or whatever the watch is set to.</string>
+    <string id="UnitsAuto" scope="settings">Match watch</string>
+    <string id="UnitsMiles" scope="settings">Miles</string>
+    <string id="UnitsKilometers" scope="settings">Kilometers</string>
+</resources>
