@@ -49,7 +49,7 @@ sim: check-sdk
 	@echo "Connect IQ simulator started."
 
 screencap:
-	@window_id=$$(swift -e 'import Foundation; import CoreGraphics; let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID)! as NSArray; for case let window as NSDictionary in windows { let owner = (window[kCGWindowOwnerName as String] as? String) ?? ""; let title = (window[kCGWindowName as String] as? String) ?? ""; if owner.contains("Connect IQ Device Simulator") || title.hasPrefix("CIQ Simulator") { print(window[kCGWindowNumber as String]!); break } }'); \
+	@window_id=$$(swift -e 'import Foundation; import CoreGraphics; let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID)! as NSArray; for case let window as NSDictionary in windows { let owner = (window[kCGWindowOwnerName as String] as? String) ?? ""; let title = (window[kCGWindowName as String] as? String) ?? ""; let bounds = window[kCGWindowBounds as String] as! NSDictionary; let width = (bounds["Width"] as! NSNumber).intValue; if title.hasPrefix("CIQ Simulator") || (owner.contains("Connect IQ Device Simulator") && width > 100) { print(window[kCGWindowNumber as String]!); break } }'); \
 	if [ -z "$$window_id" ]; then \
 		echo "CIQ Simulator window not found. Start it with 'make sim' first." >&2; \
 		exit 1; \
